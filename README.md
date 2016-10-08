@@ -1,2 +1,5 @@
-# msUserBonus
-Система бонусов для miniShop2 + msProfile, MODX revolution
+## msUserBonus
+
+Компонент для MODX revolution.
+Подчитывает и записывает бонусы покупателю по определённому агоритму.
+Испоьзуется miniShop2 и msProfile.
