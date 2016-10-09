@@ -37,6 +37,9 @@ class msUserBonus
     
     public function parseCart($action)
     {
+        if (!$this->modx->user->isAuthenticated($this->modx->context->key))
+            return 0;
+        
         return $action == 'act'
             ? $_SESSION['minishop2']['order']['bonus_cost']
             : false;

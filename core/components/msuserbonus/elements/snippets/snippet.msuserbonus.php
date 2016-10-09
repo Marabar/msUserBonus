@@ -7,6 +7,9 @@ if (!$msUserBonus = $modx->getService('msuserbonus', 'msUserBonus', $modx->getOp
     return;
 }
 
+if (!$modx->user->isAuthenticated($modx->context->key))
+    return 0;
+
 $output = isset($_SESSION['minishop2']['order']['bonus_cost'])
     ? $_SESSION['minishop2']['order']['bonus_cost']
     : 0;

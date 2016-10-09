@@ -170,14 +170,15 @@ switch ($modx->event->name) {
         break;
         
     case 'msOnCreateOrder':
+        if (!$modx->user->isAuthenticated($modx->context->key))
+            return;
+        
         $arrOrder = $order->get();
         if ($arrOrder['bonus_cost'] == 0)
             return;
         
         $msOrder->set('bonus_cost', $arrOrder['bonus_cost']);
         $msOrder->save();
-
-        //$modx->log(1, $modx->event->name . ' ' . print_r($arrOrder['bonus_cost'], 1));
         
         break;
 }
