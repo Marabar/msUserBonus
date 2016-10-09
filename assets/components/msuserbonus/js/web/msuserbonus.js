@@ -16,7 +16,7 @@ var msUserBonus = {
         $( '#msCart input[name="count"]' ).change( function(){
                 var id = '#' + $( this ).closest( 'tr' ).attr( 'id' );
                 var count = $( this ).val(); 
-                var price = parseInt( $( id + ' .price-row' ).text().replace( /\s+/g, '' ) );
+                var price = parseFloat( $( id + ' .price-row' ).text().replace( /\s+/g, '' ) );
 
                 $( id + ' .price-sum' ).html( count * price );
         });
