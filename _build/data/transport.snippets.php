@@ -9,6 +9,10 @@ $tmp = array(
         'file' => 'msuserbonus',
         'description' => '',
     ),
+    'msCopyBonus' => array(
+        'file' => 'mscopybonus',
+        'description' => '',
+    ),
 );
 
 foreach ($tmp as $k => $v) {

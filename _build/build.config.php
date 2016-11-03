@@ -4,8 +4,8 @@
 define('PKG_NAME', 'msUserBonus');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
-define('PKG_VERSION', '1.0.0');
-define('PKG_RELEASE', 'beta2');
+define('PKG_VERSION', '1.0.1');
+define('PKG_RELEASE', 'beta4');
 define('PKG_AUTO_INSTALL', true);
 define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
 
@@ -31,8 +31,8 @@ define('MODX_ASSETS_URL', MODX_BASE_URL . 'assets/');
 
 // define build options
 //define('BUILD_MENU_UPDATE', true);
-//define('BUILD_SETTING_UPDATE', false);
-define('BUILD_CHUNK_UPDATE', false);
+define('BUILD_SETTING_UPDATE', false);
+define('BUILD_CHUNK_UPDATE', true);
 
 define('BUILD_SNIPPET_UPDATE', true);
 define('BUILD_PLUGIN_UPDATE', true);
@@ -46,5 +46,5 @@ define('BUILD_SNIPPET_STATIC', false);
 define('BUILD_PLUGIN_STATIC', false);
 
 $BUILD_RESOLVERS = array(
-    //'chunks',
+    'chunks',
 );

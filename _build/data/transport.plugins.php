@@ -17,6 +17,8 @@ $tmp = array(
             'msOnChangeInCart' => array(),
             'msOnRemoveFromCart' => array(),
             'msOnCreateOrder' => array(),
+            'OnManagerPageBeforeRender' => array(),
+            'msOnSubmitOrder' => array(),
         )
     )
 );

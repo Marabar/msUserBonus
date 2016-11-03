@@ -3,10 +3,14 @@
 $properties = array();
 
 $tmp = array(
-    /*'toPlaceholder' => array(
-        'type' => 'combo-boolean',
-        'value' => false,
-    ),*/
+    'tpl' => array(
+        'type' => 'textfield',
+        'value' => 'msCopyBonusTpl',
+    ),
+    'tplInput' => array(
+        'type' => 'textfield',
+        'value' => 'msInputBonusTpl',
+    )
 );
 
 foreach ($tmp as $k => $v) {

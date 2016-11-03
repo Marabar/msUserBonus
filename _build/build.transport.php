@@ -51,6 +51,26 @@ $builder->registerNamespace(PKG_NAME_LOWER, false, true, PKG_NAMESPACE_PATH);
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Created Transport Package and Namespace.');
 
+// load system settings
+if (defined('BUILD_SETTING_UPDATE')) {
+    $settings = include $sources['data'] . 'transport.settings.php';
+    if (!is_array($settings)) {
+        $modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in settings.');
+    } else {
+        $attributes = array(
+            xPDOTransport::UNIQUE_KEY => 'key',
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => BUILD_SETTING_UPDATE,
+        );
+        foreach ($settings as $setting) {
+            $vehicle = $builder->createVehicle($setting, $attributes);
+            $builder->putVehicle($vehicle);
+        }
+        $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($settings) . ' System Settings.');
+    }
+    unset($settings, $setting, $attributes);
+}
+
 // load plugins events
 if (defined('BUILD_EVENT_UPDATE')) {
     $events = include $sources['data'] . 'transport.events.php';
@@ -100,7 +120,7 @@ if (defined('BUILD_SNIPPET_UPDATE')) {
 }
 
 // add chunks
-/*if (defined('BUILD_CHUNK_UPDATE')) {
+if (defined('BUILD_CHUNK_UPDATE')) {
     $attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Chunks'] = array(
         xPDOTransport::PRESERVE_KEYS => false,
         xPDOTransport::UPDATE_OBJECT => BUILD_CHUNK_UPDATE,
@@ -114,7 +134,7 @@ if (defined('BUILD_SNIPPET_UPDATE')) {
         $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($chunks) . ' chunks.');
     }
 }
-*/
+
 // add plugins
 if (defined('BUILD_PLUGIN_UPDATE')) {
     $attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Plugins'] = array(
@@ -164,7 +184,7 @@ $builder->setPackageAttributes(array(
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
-    //'chunks' => $BUILD_CHUNKS,
+    'chunks' => $BUILD_CHUNKS,
     //'setup-options' => array(
     //    'source' => $sources['build'] . 'setup.options.php',
     //),

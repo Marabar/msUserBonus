@@ -15,7 +15,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 	$modx->sendRedirect($modx->makeUrl($modx->getOption('site_start'),'','','full'));
 }
 elseif (!empty($_REQUEST['action'])) {
-	echo $msUserBonus->parseCart($_REQUEST['action']);
+	exit($msUserBonus->parseCart($_REQUEST['action']));
 }
 else {
     die();

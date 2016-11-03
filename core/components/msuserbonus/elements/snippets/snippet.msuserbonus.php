@@ -7,8 +7,8 @@ if (!$msUserBonus = $modx->getService('msuserbonus', 'msUserBonus', $modx->getOp
     return;
 }
 
-if (!$modx->user->isAuthenticated($modx->context->key))
-    return 0;
+//if (!$modx->user->isAuthenticated($modx->context->key))
+//    return 0;
 
 $output = isset($_SESSION['minishop2']['order']['bonus_cost'])
     ? $_SESSION['minishop2']['order']['bonus_cost']
@@ -16,6 +16,7 @@ $output = isset($_SESSION['minishop2']['order']['bonus_cost'])
 
 $modx->regClientScript($msUserBonus->config['jsUrl'] . 'web/msuserbonus.js');
 $modx->regClientHTMLBlock('<script>msUserBonus.initialize({ "actionUrl":"'
-        . $msUserBonus->config['actionUrl'] . '"});</script>');
+        . $msUserBonus->config['actionUrl'] . '"'
+    . ',"payment":"' . $msUserBonus->getPaymentId() . '"});</script>');
 
 return $output;
