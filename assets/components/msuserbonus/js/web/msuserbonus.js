@@ -41,13 +41,9 @@ var msUserBonus = {
 
             $( id + ' .price-sum' ).html(count * price);
             
-            miniShop2.Callbacks.add('Order.getcost.response.success', 'bonus_change', function(response) {
-                totalCost = response['data']['cost'] + msUserBonus.getPackPrice();
-                
-                msUserBonus.send({
-                    action:'act',
-                    cost: totalCost
-                });
+            msUserBonus.send({
+                action:'act',
+                cost: totalCost
             });
         });
         
