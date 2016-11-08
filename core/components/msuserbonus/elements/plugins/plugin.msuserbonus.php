@@ -80,7 +80,7 @@ switch ($modx->event->name) {
         break;
         
     case 'OnDocFormPrerender':
-        if ($resource->class_key == 'msProduct'){
+        //if ($resource->class_key == 'msProduct'){
             $obj = $modx->getObject('msProductData', array('id' => $resource->id));
             if ($obj) {
                 $data['cost_price'] = $obj->get('cost_price');
@@ -117,7 +117,7 @@ switch ($modx->event->name) {
                     });
                 </script>
             ");
-        }
+        //}
         
         break;
         

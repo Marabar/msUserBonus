@@ -48,7 +48,7 @@ class msUserBonus
         //if (!$this->modx->user->isAuthenticated($this->modx->context->key))
         //    return 0;
         
-        $profile = $this->msUserBonus->getCustomerProfile();
+        $profile = $this->getCustomerProfile();
         if (!$profile || $profile->get('account') <= 0) {
             return '';
         }

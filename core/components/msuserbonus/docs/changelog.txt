@@ -1,5 +1,9 @@
 Changelog for msUserBonus.
 
+1.0.1-beta5
+==============
+- [msuserbonus.js] - fix обновления бонуса
+
 1.0.1-beta
 ==============
 - Списание части бонусов
