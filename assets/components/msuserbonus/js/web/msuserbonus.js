@@ -20,7 +20,7 @@ var msUserBonus = {
             checkedPackPrice = $('input[name=mspack]:checked').data('mspack');
         });
         
-        $(document).on('click', 'button[name=ms2_action]', function(e)
+        $(document).on('click', 'button[name=ms2_action]', function()
         {
             var v = $(this).val();
             
@@ -102,11 +102,11 @@ var msUserBonus = {
                 type: 'POST',
                 url: actionPath,
                 data: { action : value },
+                dataType: 'json',
                 cache: false,
                 success: function( data ) {
-                    var total = $.parseJSON( data );
-                    if (total['success'] == true) {
-                        var response = total['data'];
+                    if (data['success'] == true) {
+                        var response = data['data'];
                         msUserBonus.set(response);
                     }
                 }
@@ -147,7 +147,7 @@ var msUserBonus = {
                 break;
         }
         
-        return;
+        //return;
     },
     
     remove: function(selector)

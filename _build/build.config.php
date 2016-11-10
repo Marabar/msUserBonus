@@ -5,7 +5,7 @@ define('PKG_NAME', 'msUserBonus');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
 define('PKG_VERSION', '1.0.1');
-define('PKG_RELEASE', 'beta5');
+define('PKG_RELEASE', 'beta6');
 define('PKG_AUTO_INSTALL', true);
 define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
 
