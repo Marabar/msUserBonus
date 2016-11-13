@@ -30,15 +30,18 @@ http://github.com/Marabar/msUserBonus/issues
 
 После установки в Свойствах товара появятся два поля: Цена закупочная
 и не редактируемое поле: Прибыль.
-В таблице заказов, дополнительная колонка: "Частично оплачено бонусом" и "Себестоимость",
-также, в окне редактирования заказа, добавится не редактируемое поле "Себестоимость".
+В таблице заказов, предусмотрены дополнительные колонки: "Частично оплачено бонусом" и "Себестоимость",
+также, в окне редактирования заказа, предусмотрено не редактируемое поле "Себестоимость".
 
-Добавить дополнительные три колонки bonus_cost, bonus_payment и cart_purchase в таблицу ms2_orders,
+Чтобы дополнительные колонки появились нужно их добавить в системную настройку miniShop2:
+ms2_order_grid_fields - bonus_purchase,bonus_payment
+
+Добавить дополнительные три колонки bonus_cost, bonus_payment и bonus_purchase в таблицу ms2_orders,
 выполнив запрос phpMyAdmin:
 
 ALTER TABLE `modx_ms2_orders` ADD `bonus_cost` DECIMAL(12,2) NULL DEFAULT '0.00' ,
 ADD `bonus_payment` DECIMAL(12,2) NULL DEFAULT '0.00' ,
-ADD `cart_purchase` DECIMAL(12,2) NULL DEFAULT '0.00'
+ADD `bonus_purchase` DECIMAL(12,2) NULL DEFAULT '0.00'
 AFTER `cart_cost`;
 
 Прибыль высчитывается по формуле:
