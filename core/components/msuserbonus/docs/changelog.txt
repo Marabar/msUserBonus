@@ -1,5 +1,9 @@
 Changelog for msUserBonus.
 
+1.0.2-beta
+==============
+- Расчёт себестоимости заказа
+
 1.0.1-beta6
 ==============
 - [msuserbonus.js] - Поддержка jQuery 3.X.X

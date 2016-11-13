@@ -35,6 +35,7 @@ Ext.extend(miniShop2.grid.Orders, miniShop2.grid.Default, {
             updatedon: {width: 75, renderer: miniShop2.utils.formatDate},
             cost: {width: 50, renderer: this._renderCost},
             bonus_payment: { width: 50 },
+            bonus_purchase: { width: 50 },
             cart_cost: {width: 50},
             delivery_cost: {width: 75},
             weight: {width: 50},
@@ -48,6 +49,8 @@ Ext.extend(miniShop2.grid.Orders, miniShop2.grid.Default, {
 
         var fields = this.getFields();
         var columns = [];
+        var purchase = [];
+
         for (var i = 0; i < fields.length; i++) {
             var field = fields[i];
             if (all[field]) {
@@ -58,7 +61,14 @@ Ext.extend(miniShop2.grid.Orders, miniShop2.grid.Default, {
                 });
                 columns.push(all[field]);
             }
+            if (field == 'bonus_purchase') {
+
+            }
+            //console.log(field);
+            //console.log(all[field]);
         }
+
+        //console.log(columns);
 
         return columns;
     },
@@ -112,6 +122,9 @@ Ext.extend(miniShop2.grid.Orders, miniShop2.grid.Default, {
     },
 
     updateOrder: function (btn, e, row) {
+
+        console.log(row);
+
         if (typeof(row) != 'undefined') {
             this.menu.record = row.data;
         }
@@ -130,6 +143,8 @@ Ext.extend(miniShop2.grid.Orders, miniShop2.grid.Default, {
                         if (w) {
                             w.close();
                         }
+
+                        msUserBonus.bonus_purchase = r.object.bonus_purchase;
 
                         w = MODx.load({
                             xtype: 'minishop2-window-order-update',

@@ -34,6 +34,7 @@ switch ($modx->event->name) {
                 'fields' => array(
                     'bonus_cost' => 0,
                     'bonus_payment' => 0,
+                    'bonus_purchase' => 0,
                 ),
                 'fieldMeta' => array(
                     'bonus_cost' => array (
@@ -44,6 +45,13 @@ switch ($modx->event->name) {
                         'default' => 0,
                     ),
                     'bonus_payment' => array(
+                        'dbtype' => 'decimal',
+                        'precision' => '12,2',
+                        'phptype' => 'float',
+                        'null' => true,
+                        'default' => 0,
+                    ),
+                    'bonus_purchase' => array(
                         'dbtype' => 'decimal',
                         'precision' => '12,2',
                         'phptype' => 'float',
@@ -80,7 +88,7 @@ switch ($modx->event->name) {
         break;
         
     case 'OnDocFormPrerender':
-        //if ($resource->class_key == 'msProduct'){
+        if ($resource->class_key == 'msProduct'){
             $obj = $modx->getObject('msProductData', array('id' => $resource->id));
             if ($obj) {
                 $data['cost_price'] = $obj->get('cost_price');
@@ -117,7 +125,7 @@ switch ($modx->event->name) {
                     });
                 </script>
             ");
-        //}
+        }
         
         break;
         
@@ -148,10 +156,13 @@ switch ($modx->event->name) {
         if ($_GET['a'] != 'mgr/orders' && $_GET['namespace'] != 'minishop2') {
             return;
         }
-        
+
+        $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/msuserbonus.js');
         $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/orders/orders.grid.js');
+        $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/orders/orders.window.js');
         
         break;
+
     case 'msOnSubmitOrder';
         $arrOrder = $order->get();
         $priceOrder = $order->getCost(true, true);
@@ -169,6 +180,7 @@ switch ($modx->event->name) {
         }
         
         break;
+
     case 'msOnChangeOrderStatus':
         if (empty($status)) { return; }
         if (!$profile = $order->getOne('CustomerProfile')) { return; }
@@ -185,6 +197,7 @@ switch ($modx->event->name) {
                 }
                 
                 break;
+
             case 4:
                 if ($order->get('bonus_payment') > 0) {
                     $profile->set('account', $profile->get('account') + $order->get('bonus_payment'));
@@ -193,17 +206,27 @@ switch ($modx->event->name) {
                     $order->set('bonus_payment', 0.00);
                     $order->save();
                 }
+
+                break;
         }
         
         break;
+
     case 'msOnAddToCart':
     case 'msOnChangeInCart':
     case 'msOnRemoveFromCart';
         $tmp = $cart->get();
+        $totalCostPrice = 0;
+        $totalPurchasePrice = 0;
+
         foreach ($tmp as $cartProduct) {
             if ($product = $modx->getObject('msProduct', $cartProduct['id'])) {
                 if ($costPrice = $product->get('cost_price')) {
                     $totalCostPrice += $costPrice * $cartProduct['count'];
+                }
+                // Себестоимость
+                if ($puchasePrice = $product->get('purchase_price')) {
+                    $totalPurchasePrice += $puchasePrice * $cartProduct['count'];
                 }
             }
         }
@@ -215,6 +238,12 @@ switch ($modx->event->name) {
         } else {
             $_SESSION['minishop2']['order']['bonus_cost'] = 0;
         }
+
+        if ($totalPurchasePrice > 0) {
+            $_SESSION['minishop2']['order']['bonus_purchase'] = $totalPurchasePrice;
+        } else {
+            $_SESSION['minishop2']['order']['bonus_purchase'] = 0;
+        }
         
         break;
         
@@ -225,6 +254,10 @@ switch ($modx->event->name) {
         $arrOrder = $order->get();
         if ($arrOrder['bonus_cost'] > 0) {
             $msOrder->set('bonus_cost', $arrOrder['bonus_cost']);
+            $msOrder->save();
+        }
+        if ($arrOrder['bonus_purchase']) {
+            $msOrder->set('bonus_purchase', $arrOrder['bonus_purchase']);
             $msOrder->save();
         }
         if ($arrOrder['msbonuscost']) {
