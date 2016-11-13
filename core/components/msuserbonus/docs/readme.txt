@@ -29,12 +29,17 @@ http://github.com/Marabar/msUserBonus/issues
 Внимание! Компонент работает только с авторизованными пользователями. (Закоментировано, заказчик отменил)
 
 После установки в Свойствах товара появятся два поля: Цена закупочная
-и не редактируемое поле: Прибыль. В таблице заказов, дополнительная колонка: Частично оплачено бонусом
+и не редактируемое поле: Прибыль.
+В таблице заказов, дополнительная колонка: "Частично оплачено бонусом" и "Себестоимость",
+также, в окне редактирования заказа, добавится не редактируемое поле "Себестоимость".
 
-Добавить дополнительные две колонки bonus_cost и bonus_payment в таблице ms2_orders,
+Добавить дополнительные три колонки bonus_cost, bonus_payment и cart_purchase в таблицу ms2_orders,
 выполнив запрос phpMyAdmin:
 
-ALTER TABLE `modx_ms2_orders` ADD `bonus_cost` DECIMAL(12,2) NULL DEFAULT '0.00' , ADD `bonus_payment` DECIMAL(12,2) NULL DEFAULT '0.00' AFTER `cart_cost`;
+ALTER TABLE `modx_ms2_orders` ADD `bonus_cost` DECIMAL(12,2) NULL DEFAULT '0.00' ,
+ADD `bonus_payment` DECIMAL(12,2) NULL DEFAULT '0.00' ,
+ADD `cart_purchase` DECIMAL(12,2) NULL DEFAULT '0.00'
+AFTER `cart_cost`;
 
 Прибыль высчитывается по формуле:
 Прибыль = Цена - Цена закупочная
