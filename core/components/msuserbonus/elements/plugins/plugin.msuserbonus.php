@@ -214,7 +214,7 @@ switch ($modx->event->name) {
 
     case 'msOnAddToCart':
     case 'msOnChangeInCart':
-    case 'msOnRemoveFromCart';
+    case 'msOnRemoveFromCart':
         $tmp = $cart->get();
         $totalCostPrice = 0;
         $totalPurchasePrice = 0;
@@ -225,8 +225,8 @@ switch ($modx->event->name) {
                     $totalCostPrice += $costPrice * $cartProduct['count'];
                 }
                 // Себестоимость
-                if ($puchasePrice = $product->get('purchase_price')) {
-                    $totalPurchasePrice += $puchasePrice * $cartProduct['count'];
+                if ($purchasePrice = $product->get('purchase_price')) {
+                    $totalPurchasePrice += $purchasePrice * $cartProduct['count'];
                 }
             }
         }
@@ -245,6 +245,25 @@ switch ($modx->event->name) {
             $_SESSION['minishop2']['order']['bonus_purchase'] = 0;
         }
         
+        break;
+
+    case 'msOnProductUpdateOrder':
+        if ($mode != 'upd') { return; }
+
+        $bonusPurchase = null;
+
+        if ($productId = $object->get('product_id')) {
+            $objProduct = $modx->getObject('msProductData', array('id' => (int) $productId));
+            if ($objProduct) {
+                $bonusPurchase = $objProduct->get('purchase_price') * $object->get('count');
+            }
+        }
+
+        if ($bonusPurchase && $objOrder = $modx->getObject('msOrder', (int) $object->get('order_id'))) {
+            $objOrder->set('bonus_purchase', $bonusPurchase);
+            $objOrder->save();
+        }
+
         break;
         
     case 'msOnCreateOrder':
