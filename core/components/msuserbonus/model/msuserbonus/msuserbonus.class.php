@@ -48,11 +48,6 @@ class msUserBonus
         //if (!$this->modx->user->isAuthenticated($this->modx->context->key))
         //    return 0;
         
-        $profile = $this->getCustomerProfile();
-        if (!$profile || $profile->get('account') <= 0) {
-            return '';
-        }
-        
         $this->data['action'] = $action['action'];
         $this->data['funded'] = $_SESSION['minishop2']['order']['bonus_cost'];
         $this->data['grant_bonus'] = $_SESSION['minishop2']['order']['msbonuscost'];
@@ -80,10 +75,6 @@ class msUserBonus
                 
                 break;
             case 'mspack':
-                //$oldPricePack = $this->getTotalPack($action['oldVal']);
-                //$newPricePack = $this->getTotalPack($action['value']);
-                
-                //$totalCost = $action['cost'] - $oldPricePack + $newPricePack;
                 $this->data['tpl'] = $this->getAjaxTpl($action['cost'], $_SESSION['msUserBonus']['tpl']);
                 
                 break;
@@ -111,8 +102,6 @@ class msUserBonus
         $ms2->initialize($this->modx->context->key);
         $order = $ms2->order->get();
         $orderCostArr = $ms2->order->getCost(true, true);
-        //$status = $ms2->cart->status();
-        //$totalCart = $status['total_cost'];
         $idPack = empty($order['mspack']) ? 1 : $order['mspack'];
         $costCart = $orderCostArr + $this->getTotalPack($idPack);
         
