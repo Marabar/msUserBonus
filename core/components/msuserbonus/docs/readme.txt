@@ -76,3 +76,32 @@ msuserbonus_size_bonus - Максимальный процент для опла
 --------------------------------------------------------------------------------
 
 Компонент писался для конкретного сайта, по всем вопросам пишите на marat@marabar.ru
+
+
+--------------------------------------------------------------------------------
+ВНИМАНИЕ!
+Для возможности изменения суммы себестоимости товара необходимо добавить системное событие
+сделав запрос в phpMyAdmin
+INSERT INTO `product`.`modx_system_eventnames` (`name`, `service`, `groupname`) VALUES ('msOnProductUpdateOrder', '6', 'miniShop2');
+
+Следующие действия необходимо проделать, если не будет принят мой PR
+https://github.com/bezumkin/miniShop2/pull/260
+при установке компонента и после каждого обновления miniShop2.
+
+В /core/components/miniShop2/processors/mgr/orders/product/update.class.php
+добавить строчку:
+
+public $afterSaveEvent = 'msOnProductUpdateOrder';
+
+Должно получится так:
+
+class msOrderProductUpdateProcessor extends modObjectUpdateProcessor
+{
+    public $classKey = 'msOrderProduct';
+    public $languageTopics = array('minishop2:default');
+    public $permission = 'msorder_save';
+    public $afterSaveEvent = 'msOnProductUpdateOrder';
+    ...
+    ...
+    ...
+}
