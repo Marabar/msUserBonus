@@ -167,7 +167,7 @@ switch ($modx->event->name) {
         $arrOrder = $order->get();
         $priceOrder = $order->getCost(true, true);
         $pricePack = $msUserBonus->getTotalPack($arrOrder['mspack']);
-        //$modx->log(1, $modx->event->name . ' ' . print_r($pricePack, 1));
+        $modx->log(1, $modx->event->name . ' ' . print_r($order->get(), 1));
         $cost = $priceOrder + $pricePack;
         $profile = $msUserBonus->getCustomerProfile();
         
@@ -248,15 +248,31 @@ switch ($modx->event->name) {
         break;
 
     case 'msOnProductUpdateOrder':
-        if ($mode != 'upd') { return; }
+    case 'msOnProductRemoveOrder':
+    case 'msOnProductCreateOrder':
 
         $bonusPurchase = null;
 
-        if ($productId = $object->get('product_id')) {
-            $objProduct = $modx->getObject('msProductData', array('id' => (int) $productId));
-            if ($objProduct) {
-                $bonusPurchase = $objProduct->get('purchase_price') * $object->get('count');
+        if ($orderId = $object->get('order_id')) {
+            $q = $modx->newQuery('msOrderProduct')
+                ->where(array(
+                    'order_id' => $orderId,
+                ));
+            $products = $modx->getIterator('msOrderProduct', $q);
+            $products->rewind();
+            $prodArr = array();
+            if ($products->valid()) {
+                foreach ($products as $product) {
+                    $prodArr  = $product->toArray();
+
+                    $objProduct = $modx->getObject('msProductData', array('id' => $prodArr['product_id']));
+                    if ($objProduct) {
+                        $bonusPurchase += $objProduct->get('purchase_price') * $prodArr['count'];
+                    }
+                }
             }
+
+            //$modx->log(1, $modx->event->name . ' ' . print_r($bonusPurchase, 1));
         }
 
         if ($bonusPurchase && $objOrder = $modx->getObject('msOrder', (int) $object->get('order_id'))) {
