@@ -20,6 +20,8 @@ $tmp = array(
             'OnManagerPageBeforeRender' => array(),
             'msOnSubmitOrder' => array(),
             'msOnProductUpdateOrder' => array(),
+            'msOnProductRemoveOrder' => array(),
+            'msOnProductCreateOrder' => array(),
         )
     )
 );

@@ -83,6 +83,8 @@ msuserbonus_size_bonus - Максимальный процент для опла
 Для возможности изменения суммы себестоимости товара необходимо добавить системное событие
 сделав запрос в phpMyAdmin
 INSERT INTO `product`.`modx_system_eventnames` (`name`, `service`, `groupname`) VALUES ('msOnProductUpdateOrder', '6', 'miniShop2');
+INSERT INTO `product`.`modx_system_eventnames` (`name`, `service`, `groupname`) VALUES ('msOnProductRemoveOrder', '6', 'miniShop2');
+INSERT INTO `product`.`modx_system_eventnames` (`name`, `service`, `groupname`) VALUES ('msOnProductCreateOrder', '6', 'miniShop2');
 
 Следующие действия необходимо проделать, если не будет принят мой PR
 https://github.com/bezumkin/miniShop2/pull/260
@@ -101,6 +103,42 @@ class msOrderProductUpdateProcessor extends modObjectUpdateProcessor
     public $languageTopics = array('minishop2:default');
     public $permission = 'msorder_save';
     public $afterSaveEvent = 'msOnProductUpdateOrder';
+    ...
+    ...
+    ...
+}
+
+В /core/components/miniShop2/processors/mgr/orders/product/remove.class.php
+добавить строчку:
+
+public $afterRemoveEvent = 'msOnProductRemoveOrder';
+
+Должно получится так:
+
+class msOrderProductRemoveProcessor extends modObjectRemoveProcessor
+{
+    public $classKey = 'msOrderProduct';
+    public $languageTopics = array('minishop2:default');
+    public $permission = 'msorder_save';
+    public $afterRemoveEvent = 'msOnProductRemoveOrder';
+    ...
+    ...
+    ...
+}
+
+В /core/components/miniShop2/processors/mgr/orders/product/create.class.php
+добавить строчку:
+
+public $afterSaveEvent = 'msOnProductCreateOrder';
+
+Должно получится так:
+
+class msOrderProductCreateProcessor extends modObjectCreateProcessor
+{
+    public $classKey = 'msOrderProduct';
+    public $languageTopics = array('minishop2:default');
+    public $permission = 'msorder_save';
+    public $afterSaveEvent = 'msOnProductCreateOrder';
     ...
     ...
     ...
