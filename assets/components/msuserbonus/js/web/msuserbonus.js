@@ -36,7 +36,7 @@ var msUserBonus = {
         $(document).on('change', selector.changeCount, function()
         {
             var id = '#' + $( this ).closest( 'tr' ).attr( 'id' );
-            var count = parseInt($( this ).val()); 
+            var count = parseFloat($( this ).val());
             var price = parseFloat( $( id + ' .price-row' ).text().replace( /\s+/g, '' ) );
 
             $( id + ' .price-sum' ).html(count * price);
