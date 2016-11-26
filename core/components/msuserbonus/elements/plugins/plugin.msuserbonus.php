@@ -167,7 +167,6 @@ switch ($modx->event->name) {
         $arrOrder = $order->get();
         $priceOrder = $order->getCost(true, true);
         $pricePack = $msUserBonus->getTotalPack($arrOrder['mspack']);
-        $modx->log(1, $modx->event->name . ' ' . print_r($order->get(), 1));
         $cost = $priceOrder + $pricePack;
         $profile = $msUserBonus->getCustomerProfile();
         
