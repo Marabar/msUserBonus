@@ -44,6 +44,14 @@ ADD `bonus_payment` DECIMAL(12,2) NULL DEFAULT '0.00' ,
 ADD `bonus_purchase` DECIMAL(12,2) NULL DEFAULT '0.00'
 AFTER `cart_cost`;
 
+
+Добавить доп. колонку purchase_price в таблицу ms2_order_products,
+выполнив запрос phpMyAdmin:
+
+ALTER TABLE `modx_ms2_order_products`
+ADD `purchase_price` DECIMAL(12,2) NULL DEFAULT '0.00' AFTER `price`;
+
+
 Прибыль высчитывается по формуле:
 Прибыль = Цена - Цена закупочная
 

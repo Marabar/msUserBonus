@@ -59,7 +59,21 @@ switch ($modx->event->name) {
                         'default' => 0,
                     ),
                 ),
-            )
+            ),
+            'msOrderProduct' => array(
+                'fields' => array(
+                    'purchase_price' => 0,
+                ),
+                'fieldMeta' => array(
+                    'purchase_price' => array (
+                        'dbtype' => 'decimal',
+                        'precision' => '12,2',
+                        'phptype' => 'float',
+                        'null' => true,
+                        'default' => 0,
+                    ),
+                ),
+            ),
         );
         
         foreach ($map as $class => $data) {
@@ -263,15 +277,9 @@ switch ($modx->event->name) {
             if ($products->valid()) {
                 foreach ($products as $product) {
                     $prodArr  = $product->toArray();
-
-                    $objProduct = $modx->getObject('msProductData', array('id' => $prodArr['product_id']));
-                    if ($objProduct) {
-                        $bonusPurchase += $objProduct->get('purchase_price') * $prodArr['count'];
-                    }
+                    $bonusPurchase += $prodArr['purchase_price'] * $prodArr['count'];
                 }
             }
-
-            //$modx->log(1, $modx->event->name . ' ' . print_r($bonusPurchase, 1));
         }
 
         if ($bonusPurchase && $objOrder = $modx->getObject('msOrder', (int) $object->get('order_id'))) {
@@ -304,6 +312,22 @@ switch ($modx->event->name) {
                 $msOrder->save();
             }
         }
-        
+
+        $order = $modx->getOption('msOrder', $scriptProperties);
+        if (!is_object($order)) {
+            return;
+        }
+
+        foreach ($order->getMany('Products') as $orderProduct) {
+               $product = $modx->getObject('msProductData', $orderProduct->get('product_id'));
+
+               if ($product) {
+                   $purchasePrice = $product->get('purchase_price');
+                   $orderProduct->set('purchase_price', $purchasePrice);
+                   $orderProduct->save();
+               }
+            //$modx->log(1, $modx->event->name . ' ' . print_r($orderProduct->get('product_id'), 1));
+        }
+
         break;
 }
