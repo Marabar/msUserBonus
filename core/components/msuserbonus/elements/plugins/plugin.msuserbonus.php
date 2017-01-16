@@ -174,6 +174,7 @@ switch ($modx->event->name) {
         $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/msuserbonus.js');
         $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/orders/orders.grid.js');
         $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/orders/orders.window.js');
+        $modx->regClientStartupScript($msUserBonus->config['jsUrl'] . 'mgr/orders/orders.grid.products.js');
         
         break;
 

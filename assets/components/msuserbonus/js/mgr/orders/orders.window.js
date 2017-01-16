@@ -10,6 +10,5 @@ Ext.ComponentMgr.onAvailable('minishop2-window-order-update', function() {
             value: msUserBonus.bonus_purchase,
             style: 'font-size:1.1em;'
         });
-        console.log(msUserBonus);
     });
 });

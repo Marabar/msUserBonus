@@ -64,11 +64,7 @@ Ext.extend(miniShop2.grid.Orders, miniShop2.grid.Default, {
             if (field == 'bonus_purchase') {
 
             }
-            //console.log(field);
-            //console.log(all[field]);
         }
-
-        //console.log(columns);
 
         return columns;
     },
